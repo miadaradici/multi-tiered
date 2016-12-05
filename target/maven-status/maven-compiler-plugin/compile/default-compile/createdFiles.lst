@@ -1,0 +1,12 @@
+com\eby\bestapp\controller\HomeController.class
+com\eby\bestapp\dao\UserDAO.class
+com\eby\bestapp\model\Capacity.class
+com\eby\bestapp\model\CeremonyType.class
+com\eby\bestapp\model\Sprint.class
+com\eby\bestapp\model\Project.class
+com\eby\bestapp\model\User.class
+com\eby\bestapp\model\JobTitle.class
+com\eby\bestapp\model\Comentariu.class
+com\eby\bestapp\config\AppConfig.class
+com\eby\bestapp\config\AppInitializer.class
+com\eby\bestapp\model\Ceremony.class
