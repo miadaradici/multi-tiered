@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eby.bestapp.dao.UserDAO;
 import com.eby.bestapp.model.User;
@@ -18,28 +19,21 @@ import com.eby.bestapp.service.UserService;
 @Controller
 @RequestMapping({"/", "/homepage"})
 public class HomeController {
-	
-	@Autowired
-	UserService userService;
+
 	
 	@Autowired
 	ProjectService projectService;
 
-//	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String home() {
-		System.out.println("new request");
-		//User u = userDAO.get(1);
-		userService.getUser();
-		//System.out.println(u.getName());
+		//CREATE
+		//userService.addUser()
 		
+		//projectService.getProject();
 		
-		projectService.getProject();
 		
 		return "home";
 	}

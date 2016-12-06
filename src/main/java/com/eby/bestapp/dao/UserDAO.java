@@ -41,4 +41,30 @@ public class UserDAO {
 		Session session = sessionFactory.openSession();
 		return (User) session.get(User.class, id);
 	}
+	
+	public boolean deleteUserById(Integer id){
+		Session session = sessionFactory.openSession();
+		User u = (User) session.get(User.class, id);
+		
+		try {
+			session.delete(u);
+			session.flush();
+			return true;
+		}
+		catch (Exception e){
+			System.out.println("Userul nu poate fi sters deoarece este scrum master");
+			return false;
+		}
+	}
+	
+	public void createUser(User u){
+		Session session = sessionFactory.openSession();
+		session.save(u);
+	}
+	
+	public void updateUser(User u){
+		Session session = sessionFactory.openSession();
+		session.update(u);
+	}
 }
+

@@ -12,8 +12,13 @@ public class ProjectService {
 	@Autowired
 	ProjectDAO projectDAO;
 	
-	public void getProject(){
-		Project project = projectDAO.get(1);
+	public Project getProjectById(Integer id){
+		Project project = projectDAO.get(id);
 		System.out.println("Project: " + project.getName());
+		return project;
+	}
+	
+	public void deleteProjectById(Integer id){
+		Boolean deleted = projectDAO.deleteProjectById(id);
 	}
 }

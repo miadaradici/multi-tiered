@@ -26,4 +26,20 @@ public class ProjectDAO {
 		Session session = sessionFactory.openSession();
 		return (Project) session.get(Project.class, id);
 	}
+	
+	public boolean deleteProjectById(Integer id){
+		Session session = sessionFactory.openSession();
+		Project project = (Project) session.get(Project.class, id);
+		
+		try {
+			session.delete(project);
+			session.flush();
+			return true;
+		}
+		catch (Exception e){
+			System.out.println("Userul nu poate fi sters");
+			return false;
+		}
+	}
+	
 }

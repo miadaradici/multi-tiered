@@ -3,8 +3,10 @@ package com.eby.bestapp.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -12,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
 
 @Entity
 @Table(name="PROJECT")
@@ -32,7 +36,8 @@ public class Project implements Serializable{
 	inverseJoinColumns=@JoinColumn(name="id_user"))
 	private List<User> participants;
 	
-	@OneToOne
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE })
 	@JoinColumn(name="idScrumMaster")
 	private User scrumMaster;
 	

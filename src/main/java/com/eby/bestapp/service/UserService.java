@@ -17,8 +17,22 @@ public class UserService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 	
-	public void getUser(){
-		User u = userDAO.get(1);
+	public User getUserById(Integer id){
+		User u = userDAO.get(id);
 		System.out.println("User: " + u.getName() + " " + u.getSurname());
+		return u;
 	}
+	
+	public void deleteUserById(Integer id){
+		Boolean deleted = userDAO.deleteUserById(id);
+	}
+	
+	public void createUser(User u){
+		userDAO.createUser(u);
+	}
+	
+	public void updateUser(User u){
+		userDAO.updateUser(u);
+	}
+	
 }
