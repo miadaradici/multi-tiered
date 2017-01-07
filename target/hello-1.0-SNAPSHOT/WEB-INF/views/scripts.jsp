@@ -1,0 +1,52 @@
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/jquery-2.1.0.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/angular.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/angular-resource.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/angular-route.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/angular-animate.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/angular-sanitize.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/textAngular.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/assets/textAngular-sanitize.min.js"></script>
+	<script
+	src="${pageContext.request.contextPath}/resources/app/assets/textAngular-rangy.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/controller/app/main-app.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/services/quiz-service.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/services/quiz-directive-service.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/services/quiz-validation-service.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/utils/questions-utils.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/utils/static-data-utils.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/controller/app/toaster.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/directives/decision-popup.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/directives/question-popup.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/directives/quizzesview.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/directives/simplequestion.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/directives/textquestion.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/controller/app/config.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/controller/logic/quiz-controllers.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/app/controller/logic/evaluation-controllers.js"></script>

@@ -1,0 +1,14 @@
+<li><div class="num">0.</div>
+	<div class="answer-check">
+		<input id="answer0_0" type="checkbox"
+			ng-model="questions[0].answers[-1].correct_answer">
+	</div>
+	<div class="answer">
+		<input type="text" class="form-control"
+			ng-model="questions[0].answers[-1].answer"
+			name="questions[0].answers[-1].answer" required="true" />
+	</div>
+	<div class="answer-check" ng-show="quiz.quiz_autoeval">
+		<input type="text" class="form-control"
+			ng-model="questions[0].answers[-1].answer_score">
+	</div></li>
