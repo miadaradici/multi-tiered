@@ -24,6 +24,7 @@ import com.endava.model.MetaUser;
 import com.endava.model.Project;
 import com.endava.model.User;
 import com.endava.service.ProjectService;
+import com.endava.service.UserService;
 import com.endava.utils.ResponseMessage;
 
 @Controller
@@ -31,6 +32,9 @@ public class ProjectController {
 
 	@Autowired
 	ProjectService projectService;
+
+	@Autowired
+	UserService userService;
 
 	public static final Logger LOG = Logger.getLogger(ProjectController.class);
 
@@ -89,22 +93,29 @@ public class ProjectController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	// @RequestMapping(value = "/getProject", method = RequestMethod.GET)
-	// public String getUser(@RequestParam Integer projectId) {
-	// Project project = projectService.getProjectById(projectId);
-	// return "home";
-	// }
+	@RequestMapping(value = "/project/{projectId}/user/{userId}", method = RequestMethod.POST, consumes = {
+			"application/json;charset=UTF-8" })
+	public ResponseEntity<Object> addUserToProject(@PathVariable Integer projectId, @PathVariable Integer userId) {
+		LOG.info("A request to POST /project/user was made");
+		try {
+			Project project = projectService.getProjectById(projectId);
+			User user = userService.getUserById(userId);
+			project.getParticipants().add(user);
+			projectService.saveOrUpdate(project);
+		} catch (ProjectNotFoundException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
-	// @RequestMapping(value = "/add", method = RequestMethod.POST)
-	// public String createUser(@RequestParam Project project) {
-	// projectService.createProject(project);
-	// return "home";
-	// }
-	//
-	// @RequestMapping(value = "/modify", method = RequestMethod.PUT)
-	// public String updateUser(@RequestParam Project project) {
-	// projectService.updateProject(project);
-	// return "home";
-	// }
+		LOG.info(ResponseMessage.SUCCESS);
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
 
 }

@@ -66,8 +66,8 @@ public class User implements Serializable {
     @Column(name = "jobtitle")
     private JobTitle jobTitle;
     
-//    @ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
-//    private List<Project> projects;
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
+    private List<Project> projects;
 //    
 //    @ManyToMany(mappedBy = "ceremonyParticipants", cascade = CascadeType.MERGE)
 //    private List<Ceremony> ceremonies;

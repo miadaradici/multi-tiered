@@ -4,6 +4,7 @@ import static com.endava.model.Project.FIND_ALL;
 import static com.endava.model.Project.FIND_PROJECT_WITH_NAME;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,42 +24,40 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 
-@Entity(name="PROJECT")
-@Table(name="PROJECT")
-@NamedQueries({@NamedQuery(name = FIND_ALL, query = "SELECT a FROM PROJECT a"),
-	@NamedQuery(name = FIND_PROJECT_WITH_NAME, query = "SELECT a FROM PROJECT a WHERE a.name = :name")})
-public class Project implements Serializable{
+@Entity(name = "PROJECT")
+@Table(name = "PROJECT")
+@NamedQueries({ @NamedQuery(name = FIND_ALL, query = "SELECT a FROM PROJECT a"),
+		@NamedQuery(name = FIND_PROJECT_WITH_NAME, query = "SELECT a FROM PROJECT a WHERE a.name = :name") })
+public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String FIND_ALL = "Project.findAll";
 	public static final String FIND_PROJECT_WITH_NAME = "Project.findProject";
-	
-	public Project (){}
-	
-	public Project (MetaProject metaProject) {
+
+	public Project() {
+	}
+
+	public Project(MetaProject metaProject) {
 		this.name = metaProject.getName();
 		this.scrumMaster = metaProject.getScrumMaster();
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-	
+	private Integer id;
+
 	@Column(name = "name")
 	private String name;
-	
-//	@ManyToMany
-//	@JoinTable(name="USERS_PROJECT",
-//	joinColumns=@JoinColumn(name="id_project"),
-//	inverseJoinColumns=@JoinColumn(name="id_user"))
-//	private List<User> participants;
-	
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE })
-	@JoinColumn(name="idScrumMaster")
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
+	@JoinTable(name = "USERS_PROJECT", joinColumns = @JoinColumn(name = "id_project"), inverseJoinColumns = @JoinColumn(name = "id_user"))
+	private List<User> participants = new ArrayList<User>();
+
+	@OneToOne(cascade = { CascadeType.REMOVE })
+	@JoinColumn(name = "idScrumMaster")
 	private User scrumMaster;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -74,14 +73,14 @@ public class Project implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-//
-//	public List<User> getParticipants() {
-//		return participants;
-//	}
-//
-//	public void setParticipants(List<User> participants) {
-//		this.participants = participants;
-//	}
+
+	public List<User> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<User> participants) {
+		this.participants = participants;
+	}
 
 	public User getScrumMaster() {
 		return scrumMaster;
@@ -90,5 +89,5 @@ public class Project implements Serializable{
 	public void setScrumMaster(User scrumMaster) {
 		this.scrumMaster = scrumMaster;
 	}
-	
+
 }

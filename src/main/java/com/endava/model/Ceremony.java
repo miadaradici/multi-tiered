@@ -10,22 +10,46 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+import org.hibernate.mapping.MetadataSource;
+
+import static com.endava.model.Ceremony.FIND_ALL;
+import static com.endava.model.Ceremony.FIND_ALL_SPRINTS_CEREMONIES;
+
+@Entity(name="CEREMONY")
 @Table(name="CEREMONY")
+@NamedQueries({@NamedQuery(name = FIND_ALL, query = "SELECT a FROM CEREMONY a"),
+	@NamedQuery(name = FIND_ALL_SPRINTS_CEREMONIES, query = "SELECT a FROM CEREMONY a WHERE a.sprint = :sprint"),
+	})
 public class Ceremony implements Serializable {
 	
 	private static final long serialVersionUID = 3385648733103959508L;
-
-	@Id @GeneratedValue
+	public static final String FIND_ALL = "Ceremony.findAll";
+	public static final String FIND_ALL_SPRINTS_CEREMONIES = "Ceremony.findSprintsCeremonies";
+	
+	public Ceremony(){
+	}
+	
+	public Ceremony ( MetaCeremony metaCeremony){
+		ceremonyType = metaCeremony.getCeremonyType();
+		date = metaCeremony.getDate();
+		description = metaCeremony.getDescription();
+		sprint = metaCeremony.getSprint();
+	}
+	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
     @Enumerated(EnumType.STRING)

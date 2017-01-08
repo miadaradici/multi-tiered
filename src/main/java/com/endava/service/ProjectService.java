@@ -23,23 +23,23 @@ public class ProjectService {
 
 	@Autowired
 	ProjectDAO projectDAO;
-	
+
 	@Autowired
 	UserDAO userDAO;
-	
+
 	public static final Logger LOG = Logger.getLogger(ProjectService.class);
-	
-	public Project getProjectById(Integer id) throws ProjectNotFoundException{
+
+	public Project getProjectById(Integer id) throws ProjectNotFoundException {
 		Project project = projectDAO.getProject(id);
 		return project;
 	}
-	
+
 	public ArrayList<Project> getProjects() {
 		ArrayList<Project> project = new ArrayList<Project>();
 		project = projectDAO.getProjects();
 		return project;
 	}
-	
+
 	public void deleteProject(Integer id) throws ProjectNotFoundException {
 		LOG.info("Deleting the project with id = " + id);
 		Project project = projectDAO.getProject(id);
@@ -49,11 +49,11 @@ public class ProjectService {
 			throw new OperationNotPermitted();
 		}
 	}
-	
+
 	public void createProject(MetaProject metaProject) throws Exception {
-		if ( metaProject.getScrumMaster() != null ){
+		if (metaProject.getScrumMaster() != null) {
 			User sm = metaProject.getScrumMaster();
-			if ( userDAO.findUser(sm.getName(), sm.getSurname()) == null){
+			if (userDAO.findUser(sm.getName(), sm.getSurname()) == null) {
 				LOG.info("Scrumaster doesn't exist.");
 				throw new UserNotFoundException();
 			}
@@ -61,13 +61,19 @@ public class ProjectService {
 		if (projectDAO.findProject(metaProject.getName()) != null) {
 			LOG.info("Project already exists. Will update scrumaster");
 			Project project = projectDAO.findProject(metaProject.getName());
-			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(), metaProject.getScrumMaster().getSurname()));
+			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(),
+					metaProject.getScrumMaster().getSurname()));
 			projectDAO.save(project);
 		} else {
 			LOG.info("Project doesn't exists. Will create");
 			Project project = new Project(metaProject);
-			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(), metaProject.getScrumMaster().getSurname()));
+			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(),
+					metaProject.getScrumMaster().getSurname()));
 			projectDAO.save(project);
 		}
+	}
+
+	public void saveOrUpdate(Project project) throws Exception {
+		projectDAO.save(project);
 	}
 }

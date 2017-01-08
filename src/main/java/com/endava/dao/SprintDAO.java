@@ -33,7 +33,7 @@ public class SprintDAO {
 		if (sprint != null) {
 			return sprint;
 		}
-		LOG.info("Sprint with id " + id+ "dosen't exist in db");
+		LOG.info("Sprint with id " + id+ " dosen't exist in db");
 		throw new ResourceNotFoundException();
 	}
 	
@@ -71,7 +71,6 @@ public class SprintDAO {
 	@Transactional
 	public void save(Sprint sprint) throws Exception {
 		LOG.info("Saving sprint");
-		LOG.info(sprint.getId());
 		em.merge(sprint);
 		LOG.info("Sprint was saved");
 	}
