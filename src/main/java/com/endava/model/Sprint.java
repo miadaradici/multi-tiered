@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,11 +25,29 @@ import javax.persistence.TemporalType;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
-@Entity
+import static com.endava.model.Sprint.FIND_ALL;
+import static com.endava.model.Sprint.FIND_ALL_PROJECTS_SPRINTS;
+import static com.endava.model.Sprint.FIND_SPRINT_WITH_DATES;
+
+@Entity(name = "SPRINT")
 @Table(name="SPRINT")
+@NamedQueries({@NamedQuery(name = FIND_ALL, query = "SELECT a FROM SPRINT a"),
+	@NamedQuery(name = FIND_ALL_PROJECTS_SPRINTS, query = "SELECT a FROM SPRINT a WHERE a.project = :project"),
+	@NamedQuery(name = FIND_SPRINT_WITH_DATES, query = "SELECT a FROM SPRINT a WHERE a.project = :project AND :startDate BETWEEN a.startDate AND a.endDate OR :endDate BETWEEN a.startDate AND a.endDate ")})
 public class Sprint implements Serializable{
 	
+	public Sprint (MetaSprint metaSprint){
+		startDate = metaSprint.getStartDate();
+		endDate = metaSprint.getEndDate();
+		capacity = metaSprint.getCapacity();
+	}
+	
+	public Sprint (){}
+	
 	private static final long serialVersionUID = 1L;
+	public static final String FIND_ALL = "Sprint.findAll";
+	public static final String FIND_ALL_PROJECTS_SPRINTS = "Sprint.findProjectsSprints";
+	public static final String FIND_SPRINT_WITH_DATES = "Sprint.findSprintWithDates";
 	
 	@Id  
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +105,15 @@ public class Sprint implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+
 
 //	public List<Ceremony> getCeremonies() {
 //		return ceremonies;
