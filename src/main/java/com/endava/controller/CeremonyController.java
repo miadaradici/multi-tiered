@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.endava.exceptions.CeremonyNotFoundException;
 import com.endava.exceptions.OperationNotPermitted;
+import com.endava.exceptions.ProjectNotFoundException;
 import com.endava.exceptions.ResourceNotFoundException;
 import com.endava.exceptions.SprintNotFoundException;
+import com.endava.exceptions.UserNotFoundException;
 import com.endava.model.Ceremony;
 import com.endava.model.MetaCeremony;
+import com.endava.model.Project;
+import com.endava.model.User;
 import com.endava.service.CeremonyService;
+import com.endava.service.UserService;
 import com.endava.utils.ResponseMessage;
 
 @Controller
@@ -28,6 +33,9 @@ public class CeremonyController {
 
 	@Autowired
 	CeremonyService ceremonyService;
+	
+	@Autowired
+	UserService userService;
 
 	public static final Logger LOG = Logger.getLogger(CeremonyController.class);
 
@@ -91,6 +99,31 @@ public class CeremonyController {
 			LOG.error(ResponseMessage.INTERNAL_ERROR);
 			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		LOG.info(ResponseMessage.SUCCESS);
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/ceremony/{ceremonyId}/user/{userId}", method = RequestMethod.POST, consumes = {
+			"application/json;charset=UTF-8" })
+	public ResponseEntity<Object> addUserToCeremony(@PathVariable Integer ceremonyId, @PathVariable Integer userId) {
+		LOG.info("A request to POST /ceremony/user was made");
+		try {
+			Ceremony ceremony = ceremonyService.getCeremonyById(ceremonyId);
+			User user = userService.getUserById(userId);
+			ceremony.getCeremonyParticipants().add(user);
+			ceremonyService.saveOrUpdate(ceremony);
+		} catch (ProjectNotFoundException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 		LOG.info(ResponseMessage.SUCCESS);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

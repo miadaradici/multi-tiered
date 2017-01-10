@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.mapping.MetadataSource;
 
 import static com.endava.model.Ceremony.FIND_ALL;
@@ -71,11 +75,18 @@ public class Ceremony implements Serializable {
 	private Sprint sprint;
 	
 	
-	@ManyToMany
-	@JoinTable(name="CEREMONY_USERS",
-	joinColumns=@JoinColumn(name="id_ceremony"),
-	inverseJoinColumns=@JoinColumn(name="id_user"))
-	private List<User> ceremonyParticipants;
+	@ManyToMany(cascade = { CascadeType.MERGE } )
+	@JoinTable(name="CEREMONY_USERS", joinColumns=@JoinColumn(name="id_ceremony"), inverseJoinColumns=@JoinColumn(name="id_user"))
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<User> ceremonyParticipants = new ArrayList<User>();
+
+	public List<User> getCeremonyParticipants() {
+		return ceremonyParticipants;
+	}
+
+	public void setCeremonyParticipants(List<User> ceremonyParticipants) {
+		this.ceremonyParticipants = ceremonyParticipants;
+	}
 
 	public Integer getId() {
 		return id;

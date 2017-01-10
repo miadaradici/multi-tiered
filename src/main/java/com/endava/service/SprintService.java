@@ -66,11 +66,13 @@ public class SprintService {
 			throw new ProjectNotFoundException();
 		}
 
-		if (sprintDAO.findSprint(project, metaSprint.getStartDate(), metaSprint.getEndDate()) != null) {
-			LOG.info("Sprint already exists. Will update capacity");
-			Sprint sprint = sprintDAO.findSprint(project, metaSprint.getStartDate(), metaSprint.getEndDate());
+		if (metaSprint.getId() != null) {
+			LOG.info("Will update sprint");
+			Sprint sprint = sprintDAO.getSprint(metaSprint.getId());
 			sprint.setCapacity(metaSprint.getCapacity());
-			sprintDAO.save(sprint);
+			sprint.setEndDate(metaSprint.getEndDate());
+			sprint.setStartDate(metaSprint.getStartDate());
+			sprintDAO.update(sprint);
 		} else {
 			LOG.info("Sprint doesn't exists. Will create");
 			Sprint sprint = new Sprint(metaSprint);

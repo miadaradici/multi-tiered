@@ -35,7 +35,6 @@ public class UserDAO {
 
 	private static final Logger LOG = Logger.getLogger(UserDAO.class);
 
-
 	public UserDAO() {
 	}
 
@@ -66,22 +65,28 @@ public class UserDAO {
 	@Transactional
 	public void save(User user) throws Exception {
 		LOG.info("Saving user");
-		em.merge(user);
+		em.persist(user);
 		LOG.info("User was saved");
 	}
-	
-	
+
 	@Transactional
 	public User findUser(String name, String surname) {
 		LOG.info("Finding user with name = " + name + " and username " + surname);
-		List<User> users = em.createNamedQuery(User.FIND_USER_WITH_NAME).setParameter("userName", name).setParameter("userSurname", surname).getResultList();
-		if (users != null && users.size()>=1) {
+		List<User> users = em.createNamedQuery(User.FIND_USER_WITH_NAME).setParameter("userName", name)
+				.setParameter("userSurname", surname).getResultList();
+		if (users != null && users.size() >= 1) {
 			LOG.info("Found an user with the name = " + name);
 			return users.get(0);
 		}
 		LOG.info("No user with name = " + name + " was found");
 		return null;
 	}
+
+	@Transactional
+	public void update(User user) {
+		em.merge(user);
+	}
+
 	//
 	// public boolean deleteUserById(Integer id){
 	// Session session = sessionFactory.openSession();

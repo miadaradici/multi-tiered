@@ -53,22 +53,22 @@ public class ProjectService {
 	public void createProject(MetaProject metaProject) throws Exception {
 		if (metaProject.getScrumMaster() != null) {
 			User sm = metaProject.getScrumMaster();
-			if (userDAO.findUser(sm.getName(), sm.getSurname()) == null) {
+			if (userDAO.getUser(metaProject.getScrumMaster().getId()) == null) {
 				LOG.info("Scrumaster doesn't exist.");
 				throw new UserNotFoundException();
 			}
 		}
-		if (projectDAO.findProject(metaProject.getName()) != null) {
-			LOG.info("Project already exists. Will update scrumaster");
-			Project project = projectDAO.findProject(metaProject.getName());
+		if (metaProject.getId() != null) {
+			LOG.info("Will update project");
+			Project project = projectDAO.getProject(metaProject.getId());
 			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(),
 					metaProject.getScrumMaster().getSurname()));
-			projectDAO.save(project);
+			project.setName(metaProject.getName());
+			projectDAO.update(project);
 		} else {
-			LOG.info("Project doesn't exists. Will create");
+			LOG.info("Will create project");
 			Project project = new Project(metaProject);
-			project.setScrumMaster(userDAO.findUser(metaProject.getScrumMaster().getName(),
-					metaProject.getScrumMaster().getSurname()));
+			project.setScrumMaster(userDAO.getUser(metaProject.getScrumMaster().getId()));
 			projectDAO.save(project);
 		}
 	}

@@ -47,17 +47,19 @@ public class UserService {
 	}
 
 	public void createUser(MetaUser metaUser) throws Exception {
-		if (userDAO.findUser(metaUser.getName(), metaUser.getSurname()) != null) {
-			LOG.info("User already exists. Will update");
-			User user = userDAO.findUser(metaUser.getName(), metaUser.getSurname());
+		if (metaUser.getId() != null) {
+			LOG.info("User with id " + metaUser.getId() + " will be updated");
+			User user = userDAO.getUser(metaUser.getId());
+			user.setName(metaUser.getName());
+			user.setSurname(metaUser.getSurname());
 			user.setUsername(metaUser.getUsername());
 			user.setEmail(metaUser.getEmail());
 			user.setJobTitle(JobTitle.valueOf(metaUser.getJobTitle()));
 			user.setPassword(metaUser.getPassword());
 			user.setRole(metaUser.getRole());
-			userDAO.save(user);
+			userDAO.update(user);
 		} else {
-			LOG.info("User doesn't exists. Will create");
+			LOG.info("User will be created");
 			User user = new User(metaUser);
 			userDAO.save(user);
 		}

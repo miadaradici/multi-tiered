@@ -73,33 +73,16 @@ public class ProjectDAO {
 	@Transactional
 	public void save(Project project) throws Exception {
 		LOG.info("Saving project");
-		em.merge(project);
+		if (project.getId() == null) {
+			em.persist(project);
+		} else {
+			em.merge(project);
+		}
 		LOG.info("Project was saved");
 	}
 
-	// public ProjectDAO(SessionFactory sessionFactory) {
-	// this.sessionFactory = sessionFactory;
-	// }
-	//
-	// @Transactional
-	// public Project get(Integer id) {
-	// Session session = sessionFactory.openSession();
-	// return (Project) session.get(Project.class, id);
-	// }
-	//
-	// public boolean deleteProjectById(Integer id){
-	// Session session = sessionFactory.openSession();
-	// Project project = (Project) session.get(Project.class, id);
-	//
-	// try {
-	// session.delete(project);
-	// session.flush();
-	// return true;
-	// }
-	// catch (Exception e){
-	// System.out.println("Userul nu poate fi sters");
-	// return false;
-	// }
-	// }
-
+	@Transactional
+	public void update(Project project) {
+		em.merge(project);
+	}
 }

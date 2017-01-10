@@ -37,8 +37,6 @@ public class SprintController {
 	@Autowired
 	SprintService sprintService;
 
-	// /project/idproject/sprints
-
 	@RequestMapping(value = "/sprint/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Sprint> getSprint(@PathVariable Integer id) {
 		LOG.info("A request to GET sprint/" + id + " has made");

@@ -74,5 +74,10 @@ public class SprintDAO {
 		em.merge(sprint);
 		LOG.info("Sprint was saved");
 	}
+	
+	@Transactional
+	public void update(Sprint sprint) {
+		em.merge(sprint);
+	}
 
 }

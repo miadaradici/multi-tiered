@@ -15,6 +15,7 @@ import com.endava.exceptions.ProjectNotFoundException;
 import com.endava.exceptions.SprintNotFoundException;
 import com.endava.exceptions.UserNotFoundException;
 import com.endava.model.Ceremony;
+import com.endava.model.CeremonyType;
 import com.endava.model.MetaCeremony;
 import com.endava.model.MetaSprint;
 import com.endava.model.Project;
@@ -68,12 +69,16 @@ public class CeremonyService {
 		}
 		LOG.info("Creating ceremony...");
 		Ceremony ceremony = new Ceremony(metaCeremony);
-		LOG.info("create");
 		ceremony.setSprint(sprint);
-		LOG.info("added sprint");
-		LOG.info(ceremony.getType());
+		ceremony.setDate(metaCeremony.getDate());
+		ceremony.setDescription(metaCeremony.getDescription());
+		ceremony.setType(metaCeremony.getCeremonyType());
 		ceremonyDAO.save(ceremony);
 		LOG.info("Ceremony was created");
+	}
+	
+	public void saveOrUpdate(Ceremony ceremony) throws Exception {
+		ceremonyDAO.save(ceremony);
 	}
 
 }

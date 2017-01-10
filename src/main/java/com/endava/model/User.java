@@ -9,9 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -66,12 +69,16 @@ public class User implements Serializable {
     @Column(name = "jobtitle")
     private JobTitle jobTitle;
     
-    @ManyToMany(mappedBy = "participants", cascade = CascadeType.MERGE)
+    //@ManyToMany(mappedBy = "participants")//, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER)//, cascade = { CascadeType.MERGE })
+	@JoinTable(name = "USERS_PROJECT", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_project"))
     private List<Project> projects;
-//    
-//    @ManyToMany(mappedBy = "ceremonyParticipants", cascade = CascadeType.MERGE)
-//    private List<Ceremony> ceremonies;
-//    
+    
+    //@ManyToMany(mappedBy = "ceremonyParticipants")//, cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = { CascadeType.MERGE } )
+	@JoinTable(name="CEREMONY_USERS", joinColumns=@JoinColumn(name="id_user"), inverseJoinColumns=@JoinColumn(name="id_ceremony"))
+    private List<Ceremony> ceremonies;
+   
 //    @ManyToMany(mappedBy = "labeledUsers", cascade = CascadeType.MERGE)
 //    private List<Comentariu> labels;
 	
@@ -98,15 +105,15 @@ public class User implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-
-	public List<Ceremony> getCeremonies() {
+*/
+	/*public List<Ceremony> getCeremonies() {
 		return ceremonies;
 	}
 
 	public void setCeremonies(List<Ceremony> ceremonies) {
 		this.ceremonies = ceremonies;
-	}*/
-
+	}
+*/
 /*	public List<Comentariu> getLabels() {
 		return labels;
 	}

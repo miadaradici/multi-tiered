@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-
 @Controller
 public class UserController {
 
@@ -31,6 +30,29 @@ public class UserController {
 	UserService userService;
 
 	public static final Logger LOG = Logger.getLogger(UserController.class);
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getUser(@PathVariable Integer id) {
+		LOG.info("A request to GET article/" + id + " has made");
+		try {
+			User user = userService.getUserById(id);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} catch (UserNotFoundException e) {
+			LOG.error("User with id" + id + "not found");
+		}
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	}
+
+	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Collection<User> getUsers() {
+		Collection<User> users = userService.getUsers();
+		if (users == null) {
+			LOG.error(ResponseMessage.RESOURCE_NOT_FOUND);
+			throw new ResourceNotFoundException();
+		}
+		LOG.info(ResponseMessage.SUCCESS);
+		return users;
+	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<User> deleteUser(@PathVariable Integer id) {
@@ -48,32 +70,7 @@ public class UserController {
 		return new ResponseEntity<User>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getUser(@PathVariable Integer id) {
-		LOG.info("A request to GET article/" + id + " has made");
-		try {
-			User user = userService.getUserById(id);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		} catch (UserNotFoundException e) {
-			LOG.error("User with id" + id + "not found");
-		}
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	}
-
-	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Collection<User> getUsers() {
-		Collection<User> users = userService.getUsers();
-		System.out.println(users.size());
-		if (users == null) {
-			LOG.error(ResponseMessage.RESOURCE_NOT_FOUND);
-			throw new ResourceNotFoundException();
-		}
-		LOG.info(ResponseMessage.SUCCESS);
-		return users;
-	}
-
-	@RequestMapping(value = "/user", method = RequestMethod.POST,  consumes = {
-	"application/json;charset=UTF-8" })
+	@RequestMapping(value = "/user", method = RequestMethod.POST, consumes = { "application/json;charset=UTF-8" })
 	public ResponseEntity<Object> createUser(@RequestBody MetaUser user) {
 		LOG.info("A request to POST user has made");
 		try {
@@ -85,21 +82,4 @@ public class UserController {
 		LOG.info(ResponseMessage.SUCCESS);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
-	
-
-//	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-//	public @ResponseBody ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
-//		LOG.info("A request to DELETE article/" + id + " has made");
-//		try {
-//			userService.deleteUser(id);
-//			LOG.info(ResponseMessage.SUCCESS);
-//			return new ResponseEntity<User>(HttpStatus.OK);
-//		} catch (Exception e) {
-//			LOG.error(ResponseMessage.INTERNAL_ERROR);
-//		}
-//		return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-	
-
 }

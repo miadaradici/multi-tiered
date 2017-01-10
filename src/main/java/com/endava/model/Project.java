@@ -2,6 +2,7 @@ package com.endava.model;
 
 import static com.endava.model.Project.FIND_ALL;
 import static com.endava.model.Project.FIND_PROJECT_WITH_NAME;
+import static javax.persistence.CascadeType.ALL;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,8 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,6 +53,10 @@ public class Project implements Serializable {
 	@Column(name = "name")
 	private String name;
 
+//	@OneToMany(cascade=ALL)
+//	@JoinColumn(name="id_project")
+//	private List<Sprint> sprints = new ArrayList<Sprint>();
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
 	@JoinTable(name = "USERS_PROJECT", joinColumns = @JoinColumn(name = "id_project"), inverseJoinColumns = @JoinColumn(name = "id_user"))
 	private List<User> participants = new ArrayList<User>();
