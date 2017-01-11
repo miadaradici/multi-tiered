@@ -43,7 +43,7 @@
 	</div>
 
 	<div class="holder">
-		<div class="page-footer">Endava 2014</div>
+		<div class="page-footer">Multitired</div>
 	</div>
 
 

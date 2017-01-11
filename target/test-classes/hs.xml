@@ -12,7 +12,7 @@
 	<!-- Defines the entity manager factory -->
 	<bean id='entityManagerFactory'
 		class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean'>
-		<property name="persistenceUnitName" value="endava" />
+		<property name="persistenceUnitName" value="multitired" />
 		<property name='dataSource' ref='dataSource' />
 		<property name="jpaVendorAdapter">
 			<bean id="jpaAdapter"
