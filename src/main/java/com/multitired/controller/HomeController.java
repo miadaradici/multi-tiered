@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.multitired.service.ProjectService;
 
@@ -14,24 +13,21 @@ import com.multitired.service.ProjectService;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping({"/", "/homepage"})
+@RequestMapping({ "/", "/index" })
 public class HomeController {
 
-	
 	@Autowired
 	ProjectService projectService;
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+
 	@RequestMapping(method = RequestMethod.GET)
-	public String home() {
-		//CREATE
-		//userService.addUser()
-		
-		//projectService.getProject();
-		
-		
-		return "home";
+	public String index() {
+		// CREATE
+		// userService.addUser()
+
+		// projectService.getProject();
+
+		return "index";
 	}
 }

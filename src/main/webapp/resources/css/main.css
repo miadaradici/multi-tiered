@@ -1,5 +1,6 @@
 @import url('style.css');
-@import url('toaster.css');
 @import url('popup.css');
-@import url('bootstrap.min.css');
-@import url('bootstrap-theme.min.css');
+
+@import url('../vendor/css/toaster.css');
+@import url('../vendor/css/bootstrap.min.css');
+@import url('../vendor/css/bootstrap-theme.min.css');
